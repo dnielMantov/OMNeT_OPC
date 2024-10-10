@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<RoleConfigurations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://unifiedautomation.com/schemas/RoleConfigurations.xsd" EnableOnlineConfiguration="true" MaxRoles="100" MaxIdentitiesPerRole="1000" MaxApplicationsPerRole="100" MaxEndpointsPerRole="100">
+  <!--NamespaceTable - Uri to use for the current array index, must exist in the server
+      <server> is used as placeholder for NS1 until the OPCF specifies the actual placeholder-->
+  <NamespaceTable>
+    <Uri>http://opcfoundation.org/UA/</Uri>
+    <Uri>&lt;server&gt;</Uri>
+    <!--<Uri>http://www.unifiedautomation.com/DemoServer/</Uri>-->
+  </NamespaceTable>
+  <Roles>
+    <!--Role settings
+        Mode="Exclude" | "Include" | "Ignore"
+        Mode="Ignore" is same as an empty array with Exclude=True
+        IgnorePermissions="true/false" - If true the permissions for this role are ignored and every access is granted
+        DisableOnlineConfiguration = "true/false". If true, this role can not be configured online (not allowed to make any changes to the mapping rules)
+    <Role Name="TestRole" NodeId="ns=2;i=1234" IgnorePermissions="true" EndpointsMode="Exclude" ApplicationsMode="Include" CustomConfiguration="true">
+      <Endpoints>
+        <Endpoint SecurityMode="Sign" SecurityPolicyUri="http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256" TransportProfileUri="http://opcfoundation.org/UA-Profile/Transport/uatcp-uasc-uabinary">opc.tcp://testurl:48010</Endpoint>
+      </Endpoints>
+      <Applications>
+        <ApplicationUri>UAExpert</ApplicationUri>
+      </Applications>
+      <Identities>
+        <Identity CriteriaType="UserName">testuser</Identity>
+        <Identity CriteriaType="Thumbprint">8E979BE67A4AFA2471ADF1FE8F72BEDD9507C7E0</Identity>
+        <Identity CriteriaType="X509Subject">CN="john"/O="Organization"/OU="Unit"/DC="MyComputer"/L="LocationName"/S="State"/C="DE"</Identity>
+      </Identities>
+    </Role>
+    Role settings-->
+    <Role Name="Anonymous" NodeId="i=15644" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities>
+        <Identity CriteriaType="Anonymous"/>
+        <Identity CriteriaType="AuthenticatedUser"/>
+      </Identities>
+    </Role>
+    <Role Name="AuthenticatedUser" NodeId="i=15656" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities>
+        <Identity CriteriaType="AuthenticatedUser"/>
+      </Identities>
+    </Role>
+    <Role Name="Observer" NodeId="i=15668" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities>
+        <Identity CriteriaType="UserName">john</Identity>
+        <Identity CriteriaType="UserName">joe</Identity>
+      </Identities>
+    </Role>
+    <Role Name="Operator" NodeId="i=15680" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities>
+        <Identity CriteriaType="UserName">john</Identity>
+        <Identity CriteriaType="UserName">sue</Identity>
+      </Identities>
+    </Role>
+    <Role Name="Supervisor" NodeId="i=15692" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities/>
+    </Role>
+    <Role Name="SecurityAdmin" NodeId="i=15704" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities>
+        <Identity CriteriaType="UserName">sam</Identity>
+        <Identity CriteriaType="UserName">root</Identity>
+      </Identities>
+    </Role>
+    <Role Name="SecurityKeyServerAccess" NodeId="i=25603" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities>
+        <Identity CriteriaType="UserName">root</Identity>
+      </Identities>
+    </Role>
+    <Role Name="SecurityKeyServerAdmin" NodeId="i=25565" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities>
+        <Identity CriteriaType="UserName">root</Identity>
+      </Identities>
+    </Role>
+    <Role Name="SecurityKeyServerPush" NodeId="i=25584" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities>
+        <Identity CriteriaType="UserName">root</Identity>
+      </Identities>
+    </Role>
+    <Role Name="ConfigureAdmin" NodeId="i=15716" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities>
+        <Identity CriteriaType="UserName">john</Identity>
+        <Identity CriteriaType="UserName">sam</Identity>
+        <Identity CriteriaType="UserName">root</Identity>
+      </Identities>
+    </Role>
+    <Role Name="Engineer" NodeId="i=16036" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities/>
+    </Role>
+    <Role Name="MyDemoRole1" NodeId="ns=1;s=MyDemoRole1" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities>
+        <Identity CriteriaType="UserName">joe</Identity>
+        <Identity CriteriaType="UserName">sue</Identity>
+      </Identities>
+    </Role>
+    <Role Name="Root" NodeId="ns=1;s=Root" IgnorePermissions="true" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities>
+        <Identity CriteriaType="UserName">sam</Identity>
+        <Identity CriteriaType="UserName">root</Identity>
+      </Identities>
+    </Role>
+    <!--<Role Name="MyDemoRole2" NodeId="ns=2;s=MyDemoRole2" EndpointsMode="Ignore" ApplicationsMode="Ignore">
+      <Endpoints/>
+      <Applications/>
+      <Identities>
+        <Identity CriteriaType="UserName">sue</Identity>
+      </Identities>
+    </Role>-->
+  </Roles>
+</RoleConfigurations>

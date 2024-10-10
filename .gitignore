@@ -1,0 +1,12 @@
+/out/
+/src/projeto_dbg
+/src/pkiserver/
+/src/pkiuser/
+/src/.qtenvrc
+/simulations/results/
+/.settings/
+.cproject
+.nedexclusions
+.nedfolders
+.oppbuildspec
+.project
