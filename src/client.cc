@@ -5,7 +5,8 @@ using namespace omnetpp;
 
 class Client : public cSimpleModule
 {
-//    private:
+    private:
+        int counter;
 //        OpcUa::BaseDataVariableType* pVariable;
 
     protected:
@@ -18,12 +19,16 @@ Define_Module(Client);
 
 void Client::initialize()
 {
-    cMessage *msg = new cMessage("newMessage");
+    counter = 10;
+    WATCH(counter);
+    cMessage *msg = new cMessage(std::to_string(counter).c_str());
     send(msg, "out");
 }
 
 void Client::handleMessage(cMessage *msg)
 {
+    EV << msg->getName() << endl;
+    msg->setName(std::to_string(--counter).c_str());
     send(msg, "out");
 }
 

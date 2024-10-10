@@ -88,12 +88,13 @@ void Server::handleMessage(cMessage *msg)
 //
 //    OpcMessage *receivedMessage = check_and_cast<OpcMessage *>(msg);
 //
-//    UaVariant newValue;
-//    UaDataValue dataValue;
-//    newValue.setString(receivedMessage->getConteudo());
-//
-//    dataValue.setValue(newValue, OpcUa_False, OpcUa_True);
-//    pVariable->setValue(NULL, dataValue, OpcUa_False);
+    UaVariant newValue;
+    UaDataValue dataValue;
+//    std::string content = msg->getName();
+    newValue.setString(msg->getName());
+
+    dataValue.setValue(newValue, OpcUa_False, OpcUa_True);
+    pVariable->setValue(NULL, dataValue, OpcUa_False);
 //
 //    EV << "Received message content: " << receivedMessage->getConteudo() << endl;
 //
