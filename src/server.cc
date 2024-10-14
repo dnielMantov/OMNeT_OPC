@@ -84,20 +84,11 @@ void Server::initialize()
 
 void Server::handleMessage(cMessage *msg)
 {
-//    EV << "Server: Message received from Client" << endl;
-//
-//    OpcMessage *receivedMessage = check_and_cast<OpcMessage *>(msg);
-//
     UaVariant newValue;
     UaDataValue dataValue;
-//    std::string content = msg->getName();
     newValue.setString(msg->getName());
 
     dataValue.setValue(newValue, OpcUa_False, OpcUa_True);
     pVariable->setValue(NULL, dataValue, OpcUa_False);
-//
-//    EV << "Received message content: " << receivedMessage->getConteudo() << endl;
-//
-//    OpcMessage *answer = new OpcMessage();
-    send(msg, "out");
+    send(msg, "gate$o");
 }

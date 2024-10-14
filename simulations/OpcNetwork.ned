@@ -3,8 +3,7 @@ simple Server
     parameters:
         @display("i=block/routing");
     gates:
-        input in;
-        output out;
+		inout gate;
 }
 
 simple Client
@@ -12,8 +11,7 @@ simple Client
     parameters:
         @display("i=block/routing");
     gates:
-        input in;
-        output out;
+		inout gate;
 }
 
 network OpcNetwork
@@ -28,6 +26,5 @@ network OpcNetwork
                 @display("i=,cyan");
         }
     connections:
-        clientA.out --> {  delay = 100ms; } --> server.in;
-        clientA.in <-- {  delay = 100ms; } <-- server.out;
+        clientA.gate <--> {  delay = 100ms; } <--> server.gate;
 }
