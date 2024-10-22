@@ -1,12 +1,13 @@
 #include <omnetpp.h>
 #include "opcserver.h"
+#include "messageUpdate_m.h"
 
 using namespace omnetpp;
 
 class Client : public cSimpleModule
 {
     private:
-        int counter;
+        int messageValue;
 
     protected:
         virtual void initialize() override;
@@ -17,15 +18,20 @@ Define_Module(Client);
 
 void Client::initialize()
 {
-    counter = 10;
-    WATCH(counter);
-    cMessage *msg = new cMessage(std::to_string(counter).c_str());
-    send(msg, "gate$o");
+    messageValue = 10;
+    MessageUpdate *msgUp = new MessageUpdate();
+    msgUp->setValue(messageValue);
+    WATCH(messageValue);
+    send(msgUp, "gate$o");
 }
 
 void Client::handleMessage(cMessage *msg)
 {
-    EV << msg->getName() << endl;
-    msg->setName(std::to_string(--counter).c_str());
-    send(msg, "gate$o");
+    MessageUpdate *msgUp = check_and_cast<MessageUpdate *>(msg);
+
+    EV << msgUp->getValue() << endl;
+
+    msgUp->setValue(--messageValue);
+    
+    send(msgUp, "gate$o");
 }

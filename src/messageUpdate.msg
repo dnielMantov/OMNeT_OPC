@@ -1,0 +1,5 @@
+message MessageUpdate
+	{
+	    double value;
+	}
+	

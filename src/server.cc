@@ -8,6 +8,7 @@
 
 #include <omnetpp.h>
 #include "opcserver.h"
+#include "messageUpdate_m.h"
 
 using namespace omnetpp;
 
@@ -67,7 +68,7 @@ void Server::initialize()
 
             // Create a variable node with a string data type
             UaVariant defaultValue;
-            defaultValue.setString("Hello World");
+            defaultValue.setDouble(0);
             pVariable = new OpcUa::BaseDataVariableType(
                 UaNodeId("Message", pNodeConfig->getNameSpaceIndex()), // NodeId of the node with string identifier "HelloWorld" and the namespace index of the default node manager which is 1
                 "Message",  // Name of the node used for display name and browse name
@@ -84,11 +85,15 @@ void Server::initialize()
 
 void Server::handleMessage(cMessage *msg)
 {
-    UaVariant newValue;
-    UaDataValue dataValue;
-    newValue.setString(msg->getName());
+    MessageUpdate *msgUp = check_and_cast<MessageUpdate *>(msg);
 
+    UaVariant newValue;
+    newValue.setDouble(msgUp->getValue());
+
+    UaDataValue dataValue;
     dataValue.setValue(newValue, OpcUa_False, OpcUa_True);
+
     pVariable->setValue(NULL, dataValue, OpcUa_False);
-    send(msg, "gate$o");
+
+    send(msgUp, "gate$o");
 }
