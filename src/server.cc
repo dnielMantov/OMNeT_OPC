@@ -65,12 +65,12 @@ void Server::initialize()
 
         if (ret == 0) {
             NodeManagerConfig* pNodeConfig = pServer->getDefaultNodeManager();
-            for (double i = 0; i < 40000; i++) {
+            for (int i = 0; i < 40000; i++) {
                 UaVariant defaultValue;
-                defaultValue.setDouble(i);
+                defaultValue.setDouble(0);
 
                 std::string nodeId = "Double_Var_" + std::to_string(i);
-                std::string variableName = "DoubleVar: " + std::to_string(i);
+                std::string variableName = "DoubleVar" + std::to_string(i);
 
                 OpcUa::BaseDataVariableType* pVariable = new OpcUa::BaseDataVariableType(
                     UaNodeId(nodeId.c_str(), pNodeConfig->getNameSpaceIndex()), // NodeId of the node with string identifier "HelloWorld" and the namespace index of the default node manager which is 1
