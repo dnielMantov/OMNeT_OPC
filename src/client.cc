@@ -1,31 +1,46 @@
 #include <omnetpp.h>
 #include "opcserver.h"
+#include "messageUpdate_m.h"
+#include "random"
 
 using namespace omnetpp;
 
 class Client : public cSimpleModule
 {
     private:
-        int counter;
+        double messageValue;
 
     protected:
         virtual void initialize() override;
         virtual void handleMessage(cMessage *msg) override;
+        virtual double generateValue();
 };
 
 Define_Module(Client);
 
 void Client::initialize()
 {
-    counter = 10;
-    WATCH(counter);
-    cMessage *msg = new cMessage(std::to_string(counter).c_str());
-    send(msg, "gate$o");
+    messageValue = generateValue();
+    WATCH(messageValue);
+    MessageUpdate *msgUp = new MessageUpdate();
+    msgUp->setValue(messageValue);
+    send(msgUp, "gate$o");
 }
 
 void Client::handleMessage(cMessage *msg)
 {
-    EV << msg->getName() << endl;
-    msg->setName(std::to_string(--counter).c_str());
-    send(msg, "gate$o");
+    MessageUpdate *msgUp = check_and_cast<MessageUpdate *>(msg);
+    messageValue = generateValue();
+    EV << messageValue << endl;
+    msgUp->setValue(messageValue);
+    send(msgUp, "gate$o");
+}
+
+double Client::generateValue() {
+    std::random_device rd;
+    std::mt19937 generator(rd());
+    double min = 0.0;
+    double max = 100.0;
+    std::uniform_real_distribution<double> distribution(min, max);
+    return distribution(generator);
 }

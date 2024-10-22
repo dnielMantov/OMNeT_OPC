@@ -8,6 +8,7 @@
 
 #include <omnetpp.h>
 #include "opcserver.h"
+#include "messageUpdate_m.h"
 
 using namespace omnetpp;
 
@@ -15,7 +16,7 @@ class Server : public cSimpleModule
 {
     private:
         OpcServer* pServer;
-        OpcUa::BaseDataVariableType* pVariable;
+        std::vector<OpcUa::BaseDataVariableType*> listaVariaveis;
 
     protected:
         virtual void initialize() override;
@@ -64,31 +65,40 @@ void Server::initialize()
 
         if (ret == 0) {
             NodeManagerConfig* pNodeConfig = pServer->getDefaultNodeManager();
+            for (double i = 0; i < 40000; i++) {
+                UaVariant defaultValue;
+                defaultValue.setDouble(i);
 
-            // Create a variable node with a string data type
-            UaVariant defaultValue;
-            defaultValue.setString("Hello World");
-            pVariable = new OpcUa::BaseDataVariableType(
-                UaNodeId("Message", pNodeConfig->getNameSpaceIndex()), // NodeId of the node with string identifier "HelloWorld" and the namespace index of the default node manager which is 1
-                "Message",  // Name of the node used for display name and browse name
-                pNodeConfig->getNameSpaceIndex(), // The same namespace index is also used for the browse name
-                defaultValue, // Setting the default value and the data type of the variable
-                OpcUa_AccessLevels_CurrentReadOrWrite, // Setting the access level to read only
-                pNodeConfig); // The node manager config interface used for this node
+                std::string nodeId = "Double_Var_" + std::to_string(i);
+                std::string variableName = "DoubleVar: " + std::to_string(i);
 
-            // Add the node to the node manager using the objects folder as source node and the reference type HasComponent
-            pNodeConfig->addNodeAndReference(UaNodeId(OpcUaId_ObjectsFolder, 0), pVariable, OpcUaId_HasComponent);
+                OpcUa::BaseDataVariableType* pVariable = new OpcUa::BaseDataVariableType(
+                    UaNodeId(nodeId.c_str(), pNodeConfig->getNameSpaceIndex()), // NodeId of the node with string identifier "HelloWorld" and the namespace index of the default node manager which is 1
+                    variableName.c_str(),  // Name of the node used for display name and browse name
+                    pNodeConfig->getNameSpaceIndex(), // The same namespace index is also used for the browse name
+                    defaultValue, // Setting the default value and the data type of the variable
+                    OpcUa_AccessLevels_CurrentReadOrWrite, // Setting the access level to read only
+                    pNodeConfig
+                ); // The node manager config interface used for this node
+
+                // Add the node to the node manager using the objects folder as source node and the reference type HasComponent
+                pNodeConfig->addNodeAndReference(UaNodeId(OpcUaId_ObjectsFolder, 0), pVariable, OpcUaId_HasComponent);
+                listaVariaveis.push_back(pVariable);
+            }
         }
     }
 }
 
 void Server::handleMessage(cMessage *msg)
 {
+    MessageUpdate *msgUp = check_and_cast<MessageUpdate *>(msg);
+
     UaVariant newValue;
     UaDataValue dataValue;
-    newValue.setString(msg->getName());
-
-    dataValue.setValue(newValue, OpcUa_False, OpcUa_True);
-    pVariable->setValue(NULL, dataValue, OpcUa_False);
-    send(msg, "gate$o");
+    for (OpcUa::BaseDataVariableType* variable : listaVariaveis) {
+        newValue.setDouble(msgUp->getValue());
+        dataValue.setValue(newValue, OpcUa_False, OpcUa_True);
+        variable->setValue(NULL, dataValue, OpcUa_False);
+    }
+    send(msgUp, "gate$o");
 }
