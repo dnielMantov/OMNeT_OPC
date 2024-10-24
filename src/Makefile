@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for projeto
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -I/home/daniel/omnetpp-6.0.3/opc/include/uastack -I/home/daniel/omnetpp-6.0.3/opc/include/uabasecpp -I/home/daniel/omnetpp-6.0.3/opc/include/uamodels -I/home/daniel/omnetpp-6.0.3/opc/include/uapkicpp -I/home/daniel/omnetpp-6.0.3/opc/include/uaservercpp -I/home/daniel/omnetpp-6.0.3/opc/include/xmlparsercpp -I/home/daniel/omnetpp-6.0.3/opc/include/uaclientcpp -L/usr/lib/x86_64-linux-gnu -L/home/daniel/omnetpp-6.0.3/opc/lib -lxml2 -lcrypto -lcoremoduled -luabasecppd -luaclientcppd -luamodelsd -luamoduled -luapkicppd -luastackd -lxmlparsercppd
+#  opp_makemake -f --deep -O out -KINET4_5_PROJ=../../inet4.5 -DINET_IMPORT -I/home/daniel/omnetpp-6.0.3/opc/include/uastack -I/home/daniel/omnetpp-6.0.3/opc/include/uabasecpp -I/home/daniel/omnetpp-6.0.3/opc/include/uamodels -I/home/daniel/omnetpp-6.0.3/opc/include/uapkicpp -I/home/daniel/omnetpp-6.0.3/opc/include/uaservercpp -I/home/daniel/omnetpp-6.0.3/opc/include/xmlparsercpp -I/home/daniel/omnetpp-6.0.3/opc/include/uaclientcpp -I$$\(INET4_5_PROJ\)/src -L/usr/lib/x86_64-linux-gnu -L/home/daniel/omnetpp-6.0.3/opc/lib -L$$\(INET4_5_PROJ\)/src -lxml2 -lcrypto -lcoremoduled -luabasecppd -luaclientcppd -luamodelsd -luamoduled -luapkicppd -luastackd -lxmlparsercppd -lINET$$\(D\)
 #
 
 # Name of target to be created (-o option)
@@ -26,13 +26,14 @@ INCLUDE_PATH = \
     -I/home/daniel/omnetpp-6.0.3/opc/include/uapkicpp \
     -I/home/daniel/omnetpp-6.0.3/opc/include/uaservercpp \
     -I/home/daniel/omnetpp-6.0.3/opc/include/xmlparsercpp \
-    -I/home/daniel/omnetpp-6.0.3/opc/include/uaclientcpp
+    -I/home/daniel/omnetpp-6.0.3/opc/include/uaclientcpp \
+    -I$(INET4_5_PROJ)/src
 
 # Additional object and library files to link with
 EXTRA_OBJS =
 
 # Additional libraries (-L, -l options)
-LIBS = $(LDFLAG_LIBPATH)/usr/lib/x86_64-linux-gnu $(LDFLAG_LIBPATH)/home/daniel/omnetpp-6.0.3/opc/lib  -lxml2 -lcrypto -lcoremoduled -luabasecppd -luaclientcppd -luamodelsd -luamoduled -luapkicppd -luastackd -lxmlparsercppd
+LIBS = $(LDFLAG_LIBPATH)/usr/lib/x86_64-linux-gnu $(LDFLAG_LIBPATH)/home/daniel/omnetpp-6.0.3/opc/lib $(LDFLAG_LIBPATH)$(INET4_5_PROJ)/src  -lxml2 -lcrypto -lcoremoduled -luabasecppd -luaclientcppd -luamodelsd -luamoduled -luapkicppd -luastackd -lxmlparsercppd -lINET$(D)
 
 # Output directory
 PROJECT_OUTPUT_DIR = ../out
@@ -48,6 +49,9 @@ MSGFILES = \
 
 # SM files
 SMFILES =
+
+# Other makefile variables (-K)
+INET4_5_PROJ=../../inet4.5
 
 #------------------------------------------------------------------------------
 
@@ -68,10 +72,10 @@ include $(CONFIGFILE)
 # Simulation kernel and user interface libraries
 OMNETPP_LIBS = $(OPPMAIN_LIB) $(USERIF_LIBS) $(KERNEL_LIBS) $(SYS_LIBS)
 ifneq ($(PLATFORM),win32)
-LIBS += -Wl,-rpath,$(abspath /usr/lib/x86_64-linux-gnu) -Wl,-rpath,$(abspath /home/daniel/omnetpp-6.0.3/opc/lib)
+LIBS += -Wl,-rpath,$(abspath /usr/lib/x86_64-linux-gnu) -Wl,-rpath,$(abspath /home/daniel/omnetpp-6.0.3/opc/lib) -Wl,-rpath,$(abspath $(INET4_5_PROJ)/src)
 endif
 
-COPTS = $(CFLAGS) $(IMPORT_DEFINES)  $(INCLUDE_PATH) -I$(OMNETPP_INCL_DIR)
+COPTS = $(CFLAGS) $(IMPORT_DEFINES) -DINET_IMPORT $(INCLUDE_PATH) -I$(OMNETPP_INCL_DIR)
 MSGCOPTS = $(INCLUDE_PATH)
 SMCOPTS =
 

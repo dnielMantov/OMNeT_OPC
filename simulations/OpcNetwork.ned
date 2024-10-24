@@ -1,9 +1,13 @@
+import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
+import inet.node.ethernet.Eth100M;
+import inet.node.inet.StandardHost;
+
 simple Server
 {
     parameters:
         @display("i=block/routing");
     gates:
-		inout gate;
+        inout gate;
 }
 
 simple Client
@@ -11,11 +15,12 @@ simple Client
     parameters:
         @display("i=block/routing");
     gates:
-		inout gate;
+        inout gate;
 }
 
 network OpcNetwork
 {
+    @display("bgb=324,268");
     submodules:
         server: Server {
             parameters:
@@ -23,8 +28,18 @@ network OpcNetwork
         }
         clientA: Client {
             parameters:
-                @display("i=,cyan");
+                @display("i=,cyan;p=225,141");
+        }
+        host1: StandardHost {
+            @display("p=52,222");
+        }
+        host2: StandardHost {
+            @display("p=206,222");
+        }
+        configurator: Ipv4NetworkConfigurator {
+            @display("p=271,37");
         }
     connections:
         clientA.gate <--> {  delay = 100ms; } <--> server.gate;
+        host1.ethg++ <--> Eth100M <--> host2.ethg++;
 }
