@@ -4,6 +4,7 @@
 /src/pkiuser/
 /src/.qtenvrc
 /simulations/results/
+/simulations/.qtenvrc
 /.settings/
 .cproject
 .nedexclusions
