@@ -16,7 +16,7 @@ class Server : public cSimpleModule
 {
     private:
         OpcServer* pServer;
-        std::vector<OpcUa::BaseDataVariableType*> listaVariaveis;
+        OpcUa::BaseDataVariableType* listaVariaveis[5];
 
     protected:
         virtual void initialize() override;
@@ -65,7 +65,7 @@ void Server::initialize()
 
         if (ret == 0) {
             NodeManagerConfig* pNodeConfig = pServer->getDefaultNodeManager();
-            for (int i = 0; i < 40000; i++) {
+            for (int i = 0; i < 5; i++) {
                 UaVariant defaultValue;
                 defaultValue.setDouble(0);
 
@@ -83,7 +83,7 @@ void Server::initialize()
 
                 // Add the node to the node manager using the objects folder as source node and the reference type HasComponent
                 pNodeConfig->addNodeAndReference(UaNodeId(OpcUaId_ObjectsFolder, 0), pVariable, OpcUaId_HasComponent);
-                listaVariaveis.push_back(pVariable);
+                listaVariaveis[i] = pVariable;
             }
         }
     }
@@ -93,12 +93,14 @@ void Server::handleMessage(cMessage *msg)
 {
     MessageUpdate *msgUp = check_and_cast<MessageUpdate *>(msg);
 
+    int hostIndex = msg->getArrivalGate()->getIndex();
+
     UaVariant newValue;
     UaDataValue dataValue;
-    for (OpcUa::BaseDataVariableType* variable : listaVariaveis) {
-        newValue.setDouble(msgUp->getValue());
-        dataValue.setValue(newValue, OpcUa_False, OpcUa_True);
-        variable->setValue(NULL, dataValue, OpcUa_False);
-    }
-    send(msgUp, "gate$o", msg->getArrivalGate()->getIndex());
+
+    newValue.setDouble(msgUp->getValue());
+    dataValue.setValue(newValue, OpcUa_False, OpcUa_True);
+
+    listaVariaveis[hostIndex]->setValue(NULL, dataValue, OpcUa_False);
+    send(msgUp, "gate$o", hostIndex);
 }
