@@ -100,5 +100,5 @@ void Server::handleMessage(cMessage *msg)
         dataValue.setValue(newValue, OpcUa_False, OpcUa_True);
         variable->setValue(NULL, dataValue, OpcUa_False);
     }
-    send(msgUp, "gate$o");
+    send(msgUp, "gate$o", msg->getArrivalGate()->getIndex());
 }

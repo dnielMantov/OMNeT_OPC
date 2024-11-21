@@ -24,7 +24,9 @@ void Client::initialize()
     WATCH(messageValue);
     MessageUpdate *msgUp = new MessageUpdate();
     msgUp->setValue(messageValue);
-    send(msgUp, "gate$o");
+    int n = gateSize("gate$o");
+    int index = n - 1;
+    send(msgUp, "gate$o", index);
 }
 
 void Client::handleMessage(cMessage *msg)
@@ -33,7 +35,10 @@ void Client::handleMessage(cMessage *msg)
     messageValue = generateValue();
     EV << messageValue << endl;
     msgUp->setValue(messageValue);
-    send(msgUp, "gate$o");
+
+    int n = gateSize("gate$o");
+    int index = n - 1;
+    send(msgUp, "gate$o", index);
 }
 
 double Client::generateValue() {
