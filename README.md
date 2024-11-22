@@ -10,7 +10,7 @@ As etapas foram registradas em branches distintas, consulte-as a seguir.
 ## Branches:
 - master: código da primeira simulação demonstrada na documentação.
 - randomUpdates: simulação entre 5 clientes e 1 servidor com atualizações randômicas de nós.
-- INET: simulação de conexão entre 2 hosts com um switch intermediádio utilizando o framework INET.
+- INET: simulação de conexão entre 2 hosts com um switch intermediário utilizando o framework INET.
 
 A cada mudança de branch (tendo em vista que todos os passos para a configuração de ambiente na documetação anexada foram seguidos) é necessário realizar uma build, para executar o programa, acesse a pasta `simulations` e execute o script `run_simulation`
 
