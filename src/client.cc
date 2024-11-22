@@ -21,6 +21,7 @@ Define_Module(Client);
 void Client::initialize()
 {
     messageValue = generateValue();
+    EV << messageValue << endl;
     WATCH(messageValue);
     MessageUpdate *msgUp = new MessageUpdate();
     msgUp->setValue(messageValue);
