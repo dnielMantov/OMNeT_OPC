@@ -3,7 +3,7 @@ O seguinte repositório versiona códigos experimentais desenvolvidos durante a 
 
 Foram utilizados o framework OPC UA em C++ da Unified Automation e o framework INET para OMNeT++.
 
-Para mais informações do funcionamento do código e integração do SDK da Unified Automation com o OMNeT++, consulte a **documentação** fornecida no arquivo "Manual de Integração e Simulação OMNeT++ com OPC UA.pdf" na raiz do projeto.
+Para mais informações do funcionamento do código, integração do SDK da Unified Automation com o OMNeT++, build e execução, consulte a **documentação** fornecida no arquivo "Manual de Integração e Simulação OMNeT++ com OPC UA.pdf" na raiz do projeto.
 
 As etapas foram registradas em branches distintas, consulte-as a seguir.
 
