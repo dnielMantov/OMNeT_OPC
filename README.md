@@ -1,4 +1,4 @@
-# OMNet++ e OPC UA
+# OMNeT++ e OPC UA
 O seguinte repositório versiona códigos experimentais desenvolvidos durante a pesquisa de simulação entre OPC UA e OMNeT++ realizada no Laboratório de Instrumentação Eletrônica e Controle (LIEC) da Universidade Federal de Campina Grande (UFCG).
 
 Foram utilizados o framework OPC UA em C++ da Unified Automation e o framework INET para OMNeT++.
